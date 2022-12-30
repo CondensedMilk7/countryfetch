@@ -4,14 +4,23 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"path"
 
 	"github.com/CondensedMilk7/countryfetch-go/color"
 	"github.com/CondensedMilk7/countryfetch-go/countries"
 )
 
 var config = countries.Config{
-	Url:   "https://restcountries.com/v3.1/",
-	Query: "all?fields=name,capital,currencies,population,flag,languages,region,subregion,timezones,latlng,capitalInfo,tld,flags",
+	Url:       "https://restcountries.com/v3.1/",
+	Query:     "all?fields=name,capital,currencies,population,flag,languages,region,subregion,timezones,latlng,capitalInfo,tld,flags",
+	CacheFile: "countries.json",
+	CacheDir: func() (string, error) {
+		homeDir, err := os.UserHomeDir()
+		if err != nil {
+			return "", err
+		}
+		return path.Join(homeDir, ".cache", "countryfetch"), nil
+	},
 }
 
 var syncFlag bool
@@ -24,18 +33,21 @@ func main() {
 	flag.StringVar(&capitalFlag, "capital", "", "Find country by given capital")
 	flag.Parse()
 
+	cacheDir, err := config.CacheDir()
+	checkErr(err)
+
 	if syncFlag {
 		fmt.Println("Fetching countries data...")
-		data, err := countries.GetData(&config)
+		data, err := countries.GetData(config.Url, config.Query)
 		checkErr(err)
 		fmt.Println("Saving cache...")
-		err = countries.SaveData(data)
+		err = countries.SaveData(data, cacheDir, config.CacheFile)
 		checkErr(err)
-		fmt.Println("Cache saved.")
+		fmt.Println(color.WrapInColor(color.Green, "Cache saved."))
 	}
 
 	if nameFlag != "" {
-		data, err := countries.ReadData("./countries.json")
+		data, err := countries.ReadData(cacheDir, config.CacheFile)
 		checkErr(err)
 		c, err := countries.FindByName(data, nameFlag)
 		checkErr(err)
@@ -43,7 +55,7 @@ func main() {
 	}
 
 	if capitalFlag != "" {
-		data, err := countries.ReadData("./countries.json")
+		data, err := countries.ReadData(cacheDir, config.CacheFile)
 		checkErr(err)
 		c, err := countries.FindByCapital(data, capitalFlag)
 		checkErr(err)

@@ -7,9 +7,13 @@ import (
 	"strings"
 )
 
+type CacheDir func() (string, error)
+
 type Config struct {
-	Url   string `json:"url"`
-	Query string `json:"query"`
+	Url       string
+	Query     string
+	CacheFile string
+	CacheDir  CacheDir
 }
 
 type CurrencyInfo struct {

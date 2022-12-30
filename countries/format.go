@@ -7,7 +7,6 @@ import (
 
 func FormatCurrencies(currencies map[string]CurrencyInfo) string {
 	str := ""
-	fmt.Println(currencies)
 	for abr, info := range currencies {
 		str += fmt.Sprintf("%s [%s][%s]", info.Name, abr, info.Symbol)
 	}
