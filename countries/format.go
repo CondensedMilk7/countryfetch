@@ -28,6 +28,22 @@ func FormatLanguages(langs map[string]string) string {
 	return str
 }
 
+func FormatLatLng(latlng []float32) string {
+	return fmt.Sprintf("%.2f/%.2f", latlng[0], latlng[1])
+}
+
+func FormatTz(tzs []string) string {
+	result := ""
+	for i, tz := range tzs {
+		if i+1 < len(tzs) {
+			result += tz + " | "
+		} else {
+			result += tz
+		}
+	}
+	return result
+}
+
 func FormatInt(number int) string {
 	output := strconv.Itoa(number)
 	startOffset := 3

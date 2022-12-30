@@ -2,6 +2,7 @@ package countries
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -10,12 +11,12 @@ import (
 func ReadData(path string) ([]Country, error) {
 	f, err := os.ReadFile(path)
 	if err != nil {
-		return nil, err
+		return nil, errors.New("Could not read file: " + path)
 	}
 	var data []Country
 	err = json.Unmarshal(f, &data)
 	if err != nil {
-		return nil, err
+		return nil, errors.New("Error during unmarshal of: " + path)
 	}
 	return data, nil
 }

@@ -3,9 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
 	"os"
 
+	"github.com/CondensedMilk7/countryfetch-go/color"
 	"github.com/CondensedMilk7/countryfetch-go/countries"
 )
 
@@ -16,40 +16,49 @@ var config = countries.Config{
 
 var syncFlag bool
 var nameFlag string
+var capitalFlag string
 
 func main() {
 	flag.BoolVar(&syncFlag, "sync", false, "Fetch and save data to cache")
 	flag.StringVar(&nameFlag, "name", "", "Find country by given name")
+	flag.StringVar(&capitalFlag, "capital", "", "Find country by given capital")
 	flag.Parse()
 
 	if syncFlag {
 		fmt.Println("Fetching countries data...")
 		data, err := countries.GetData(&config)
-		if err != nil {
-			log.Fatal(err)
-		}
+		checkErr(err)
 		fmt.Println("Saving cache...")
 		err = countries.SaveData(data)
-		if err != nil {
-			log.Fatal(err)
-		}
+		checkErr(err)
 		fmt.Println("Cache saved.")
 	}
 
 	if nameFlag != "" {
 		data, err := countries.ReadData("./countries.json")
-		if err != nil {
-			fmt.Println(err)
-		}
+		checkErr(err)
 		c, err := countries.FindByName(data, nameFlag)
-		if err != nil {
-			fmt.Println(err)
-		}
+		checkErr(err)
+		c.Print()
+	}
+
+	if capitalFlag != "" {
+		data, err := countries.ReadData("./countries.json")
+		checkErr(err)
+		c, err := countries.FindByCapital(data, capitalFlag)
+		checkErr(err)
 		c.Print()
 	}
 
 	if len(os.Args) == 1 {
 		fmt.Println("USAGE:")
 		flag.PrintDefaults()
+	}
+}
+
+func checkErr(err error) {
+	if err != nil {
+		fmt.Println(fmt.Sprintf("%s%s", color.Red, err))
+		os.Exit(2)
 	}
 }

@@ -42,16 +42,18 @@ type Country struct {
 	} `json:"flags"`
 }
 
+// TODO: Make getters for Country properties that are troublesome
+// (like capital that is sometimes empty slice)
 // TODO: Make fields and values of different color
 func (c Country) Print() {
 	output :=
 		`
 Name: %s %s
-Lat/Lng: %.1f/%.1f
+Lat/Lng: %s
 Populaiton: %s
 Languages: %s
 Capital: %s
-Capital Lat/Lng: %.2f/%.2f
+Capital Lat/Lng: %s
 Region: %s
 Subregion: %s
 Timezones: %s
@@ -59,21 +61,19 @@ Top Level Domain: %s
 Currencies: %s
 `
 	fmt.Printf(
-		color.WrapInColor(color.Green, output),
-		c.Name.Common,
+		output,
+		color.WrapInColor(color.Cyan, c.Name.Common),
 		c.Flag,
-		c.Latlng[0],
-		c.Latlng[1],
-		FormatInt(c.Population),
-		FormatLanguages(c.Languages),
-		c.Capital[0],
-		c.CapitalInfo.Latlng[0],
-		c.CapitalInfo.Latlng[1],
-		c.Region,
-		c.Subregion,
-		c.Timezones,
-		c.Tld,
-		FormatCurrencies(c.Currencies),
+		color.WrapInColor(color.Cyan, FormatLatLng(c.Latlng)),
+		color.WrapInColor(color.Cyan, FormatInt(c.Population)),
+		color.WrapInColor(color.Cyan, FormatLanguages(c.Languages)),
+		color.WrapInColor(color.Cyan, c.Capital[0]),
+		color.WrapInColor(color.Cyan, FormatLatLng(c.CapitalInfo.Latlng)),
+		color.WrapInColor(color.Cyan, c.Region),
+		color.WrapInColor(color.Cyan, c.Subregion),
+		color.WrapInColor(color.Cyan, FormatTz(c.Timezones)),
+		color.WrapInColor(color.Cyan, c.Tld[0]),
+		color.WrapInColor(color.Cyan, FormatCurrencies(c.Currencies)),
 	)
 }
 
@@ -85,9 +85,15 @@ func FindByName(countries []Country, exp string) (Country, error) {
 	return country, err
 }
 
-// func FindByCapital(countries []Country, exp string) (Country, err) {
-
-// }
+func FindByCapital(countries []Country, exp string) (Country, error) {
+	for _, c := range countries {
+		if len(c.Capital) > 0 &&
+			strings.Contains(strings.ToLower(c.Capital[0]), strings.ToLower(exp)) {
+			return c, nil
+		}
+	}
+	return Country{}, errors.New("Could not find country of the given capital " + exp)
+}
 
 func ExactMatch(countries []Country, exp string) (Country, error) {
 	for _, c := range countries {
