@@ -9,7 +9,7 @@ This is a work in progress.
 
 Make sure you have [GO](https://go.dev/) installed and run this one-line installer:
 
-````bash
+```bash
 git clone https://github.com/CondensedMilk7/countryfetch-go.git && cd ./countryfetch-go && go build && cp ./countryfetch-go ~/.local/bin/countryfetch
 ```
 
