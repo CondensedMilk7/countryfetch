@@ -44,7 +44,6 @@ type Country struct {
 
 // TODO: Make getters for Country properties that are troublesome
 // (like capital that is sometimes empty slice)
-// TODO: Make fields and values of different color
 func (c Country) Print() {
 	output :=
 		`

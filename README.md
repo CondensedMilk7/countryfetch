@@ -7,7 +7,5 @@ This is a work in progress.
 
 ## To do:
 
-- Colored output
 - Better error handling
-- Search country by capital name
 - Flag ASCII art (like in the original)
