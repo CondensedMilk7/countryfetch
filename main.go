@@ -65,6 +65,8 @@ func main() {
 	if len(os.Args) == 1 {
 		fmt.Println("USAGE:")
 		flag.PrintDefaults()
+		fmt.Println("EXAMPLE:")
+		fmt.Println("  countryfetch -name italy")
 	}
 }
 
