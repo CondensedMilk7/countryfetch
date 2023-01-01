@@ -35,8 +35,8 @@ func main() {
 	flag.StringVar(&countryName, "name", "", "Find country by given name.")
 	flag.StringVar(&capital, "capital", "", "Find country by given capital.")
 	flag.BoolVar(&withFlag, "flag", false, "Include ASCII flag in the operation. Can be used in combination with -sync & -name.")
-	flag.BoolVar(&flagOnly, "flagonly", false, "Print flag only. Used in combination with -name.")
-	flag.BoolVar(&flagRemote, "flagremote", false, "Print flag only via remote URL. Used in combination -name.")
+	flag.BoolVar(&flagOnly, "flagonly", false, "Print flag only. Must be used with -name.")
+	flag.BoolVar(&flagRemote, "flagremote", false, "Print flag via remote URL. Can be used in combination with -flagonly. Must be used with -name.")
 	flag.Parse()
 
 	cacheDir, err := config.CacheDir()
@@ -72,12 +72,16 @@ func main() {
 			err := c.PrintFlag(cacheDir)
 			checkErr(err)
 			c.Print()
+		} else if flagOnly && flagRemote {
+			err := c.PrintFlagRemote()
+			checkErr(err)
 		} else if flagOnly {
 			err := c.PrintFlag(cacheDir)
 			checkErr(err)
 		} else if flagRemote {
 			err := c.PrintFlagRemote()
 			checkErr(err)
+			c.Print()
 		} else {
 			fmt.Println()
 			c.Print()
@@ -100,7 +104,7 @@ func main() {
       Fetch information about Italy, including its flag.
   countryfetch -sync -flag
       Store information of all countries in cache, including generated flag ASCII art.
-  countryfetch -capital \"kuala lumpur\"
+  countryfetch -capital "kuala lumpur"
       Fetch information about the country of given capital.
   countryfetch -flagonly -name "united states"
       Fetch just the flag of USA.`)

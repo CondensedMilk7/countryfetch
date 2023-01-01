@@ -28,9 +28,9 @@ USAGE:
   -flag
     	Include ASCII flag in the operation. Can be used in combination with -sync & -name.
   -flagonly
-    	Print flag only. Used in combination with -name.
+    	Print flag only. Must be used with -name.
   -flagremote
-    	Print flag only via remote URL. Used in combination -name.
+    	Print flag via remote URL. Can be used in combination with -flagonly. Must be used with -name.
   -name string
     	Find country by given name.
   -sync
