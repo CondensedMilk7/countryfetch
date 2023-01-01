@@ -77,3 +77,4 @@ countryfetch -sync -flag  7.92s user 0.30s system 35% cpu 23.377 total
 
 - Fetch flags remotely (directly, not from stored cache)
 - Fetch just the flag for a given country
+- CLI-configurable flag ASCII dimensions
