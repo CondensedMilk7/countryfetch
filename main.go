@@ -24,7 +24,6 @@ var config = countries.Config{
 }
 
 var sync bool
-var syncFlags bool
 var countryName string
 var capital string
 var withFlag bool
