@@ -42,6 +42,37 @@ EXAMPLE:
 
 Note that string arguments with multiple words have to be enclosed in brackets.
 
+# TypeScript (Deno) vs. Go
+
+
+Here's a (little irrelevant) performance comparison between TypeScript and Go versions measured with `time` utility:
+
+### Regular fetch
+
+**TypeScript(Deno)**
+```
+countryfetch south korea  0.20s user 0.02s system 100% cpu 0.215 total
+```
+
+**Go**
+
+```
+countryfetch -flag -name "south korea"  0.01s user 0.00s system 105% cpu 0.014 total
+```
+### Generating ASCII and caching
+
+
+**TypeScript(Deno)**
+```
+countryfetch sync flags  13.16s user 0.32s system 19% cpu 1:08.47 total
+```
+
+**Go**
+
+```
+countryfetch -sync -flag  7.92s user 0.30s system 35% cpu 23.377 total
+```
+
 # Tasks
 
 - Fetch flags remotely (directly, not from stored cache)
