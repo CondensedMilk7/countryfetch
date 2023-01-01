@@ -8,7 +8,7 @@ This is a work in progress.
 
 # Installation & Usage
 
-Make sure you have [GO](https://go.dev/ | width=400) installed and run this one-line installer:
+Make sure you have [GO](https://go.dev/) installed and run this one-line installer:
 
 ```bash
 git clone https://github.com/CondensedMilk7/countryfetch-go.git && cd ./countryfetch-go && go install
