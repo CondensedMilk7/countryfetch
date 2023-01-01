@@ -1,11 +1,16 @@
 package countries
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
+	"image/png"
+	"io"
+	"net/http"
 	"strings"
 
 	"github.com/CondensedMilk7/countryfetch/color"
+	"github.com/qeesung/image2ascii/convert"
 )
 
 type CacheDir func() (string, error)
@@ -80,6 +85,42 @@ Currencies: %s
 	)
 }
 
+func (c Country) PrintFlagRemote() error {
+	convertOptions := convert.DefaultOptions
+	convertOptions.FixedWidth = 40
+	convertOptions.FixedHeight = 12
+	convertOptions.FitScreen = true
+	converter := convert.NewImageConverter()
+
+	ascii, err := c.FlagAscii(converter, &convertOptions)
+	if err != nil {
+		return err
+	}
+	fmt.Println(ascii)
+
+	return nil
+}
+
+// Generate flag ASCII from remote url image and return it as string
+func (c Country) FlagAscii(converter *convert.ImageConverter, options *convert.Options) (string, error) {
+	resp, err := http.Get(c.Flags.Png)
+	if err != nil {
+		return "", nil
+	}
+
+	data, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", nil
+	}
+	defer resp.Body.Close()
+
+	image, err := png.Decode(bytes.NewReader(data))
+
+	asciiFlag := converter.Image2ASCIIString(image, options)
+	return asciiFlag, nil
+}
+
+// Print flag from cache
 func (c Country) PrintFlag(cacheDir string) error {
 	searchStr := FormatFlagFileName(c.Name.Common)
 	flag, err := ReadFlag(searchStr, cacheDir)

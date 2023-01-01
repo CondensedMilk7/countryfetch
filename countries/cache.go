@@ -1,7 +1,6 @@
 package countries
 
 import (
-	"bytes"
 	"encoding/json"
 	"errors"
 	"io"
@@ -9,11 +8,10 @@ import (
 	"os"
 	"path"
 
-	"image/png"
-
 	"github.com/qeesung/image2ascii/convert"
 )
 
+// Read flag from cache by its name
 func ReadFlag(fileName string, cacheDir string) (string, error) {
 	flagsPath := path.Join(cacheDir, "flags")
 	entries, err := os.ReadDir(flagsPath)
@@ -30,7 +28,7 @@ func ReadFlag(fileName string, cacheDir string) (string, error) {
 	return "", errors.New("Failed executing a loop over cache file entries")
 }
 
-func FlagAscii(countries []Country, cacheDir string, cb func(current int, total int, countryName string)) error {
+func CacheFlags(countries []Country, cacheDir string, cb func(current int, total int, countryName string)) error {
 	flagsPath := path.Join(cacheDir, "flags")
 	os.MkdirAll(flagsPath, os.ModePerm)
 
@@ -43,20 +41,10 @@ func FlagAscii(countries []Country, cacheDir string, cb func(current int, total 
 	for i, country := range countries {
 		cb(i+1, len(countries), country.Name.Common)
 
-		resp, err := http.Get(country.Flags.Png)
+		asciiFlag, err := country.FlagAscii(converter, &convertOptions)
 		if err != nil {
 			return err
 		}
-
-		data, err := io.ReadAll(resp.Body)
-		if err != nil {
-			return err
-		}
-		defer resp.Body.Close()
-
-		image, err := png.Decode(bytes.NewReader(data))
-
-		asciiFlag := converter.Image2ASCIIString(image, &convertOptions)
 		fileName := FormatFlagFileName(country.Name.Common)
 		os.WriteFile(path.Join(flagsPath, fileName), []byte(asciiFlag), os.ModePerm)
 	}

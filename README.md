@@ -27,17 +27,23 @@ USAGE:
     	Find country by given capital.
   -flag
     	Include ASCII flag in the operation. Can be used in combination with -sync & -name.
+  -flagonly
+    	Print flag only. Used in combination with -name.
+  -flagremote
+    	Print flag only via remote URL. Used in combination -name.
   -name string
     	Find country by given name.
   -sync
     	Fetch and save data to cache.
 EXAMPLE:
-    countryfetch -name italy -flag
+  countryfetch -name italy -flag
 	    Fetch information about Italy, including its flag.
-    countryfetch -sync -flag
+  countryfetch -sync -flag
 	    Store information of all countries in cache, including generated flag ASCII art.
-    countryfetch -capital "kuala lumpur"
-	    Fetch information about the country of given capital
+  countryfetch -capital "kuala lumpur"
+	    Fetch information about the country of given capital.
+  countryfetch -flagonly -name "united states"
+      Fetch just the flag of USA.
 ```
 
 Note that string arguments with multiple words have to be enclosed in brackets.
@@ -75,6 +81,6 @@ countryfetch -sync -flag  7.92s user 0.30s system 35% cpu 23.377 total
 
 # Tasks
 
-- Fetch flags remotely (directly, not from stored cache)
-- Fetch just the flag for a given country
-- CLI-configurable flag ASCII dimensions
+- ~~Fetch flags remotely (directly, not from stored cache)~~
+- ~~Fetch just the flag for a given country~~
+- CLI-configurable flag ASCII dimensions (probably just for the remote)
