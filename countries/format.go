@@ -3,7 +3,12 @@ package countries
 import (
 	"fmt"
 	"strconv"
+	"strings"
 )
+
+func FormatFlagFileName(countryName string) string {
+	return strings.Replace(countryName, " ", "_", -1)
+}
 
 func FormatCurrencies(currencies map[string]CurrencyInfo) string {
 	str := ""

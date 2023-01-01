@@ -3,8 +3,9 @@ package countries
 import (
 	"errors"
 	"fmt"
-	"github.com/CondensedMilk7/countryfetch-go/color"
 	"strings"
+
+	"github.com/CondensedMilk7/countryfetch/color"
 )
 
 type CacheDir func() (string, error)
@@ -50,8 +51,7 @@ type Country struct {
 // (like capital that is sometimes empty slice)
 func (c Country) Print() {
 	output :=
-		`
-Name: %s %s
+		`Name: %s %s
 Lat/Lng: %s
 Populaiton: %s
 Languages: %s
@@ -78,6 +78,16 @@ Currencies: %s
 		color.WrapInColor(color.Cyan, c.Tld[0]),
 		color.WrapInColor(color.Cyan, FormatCurrencies(c.Currencies)),
 	)
+}
+
+func (c Country) PrintFlag(cacheDir string) error {
+	searchStr := FormatFlagFileName(c.Name.Common)
+	flag, err := ReadFlag(searchStr, cacheDir)
+	if err != nil {
+		return err
+	}
+	fmt.Println(flag)
+	return nil
 }
 
 func FindByName(countries []Country, exp string) (Country, error) {
