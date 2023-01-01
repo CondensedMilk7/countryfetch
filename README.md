@@ -2,8 +2,8 @@
 
 A cli tool for fetching information about countries. A Go alternative to my original
 [countryfetch](https://github.com/CondensedMilk7/countryfetch) which is written in TypeScript (Deno).
+It uses https://restcountries.com/ for back-end.
 
-This is a work in progress.
 ![](./media/countryfetch-go.jpg)
 
 # Installation & Usage
