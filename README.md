@@ -20,6 +20,7 @@ If you have the original `countryfetch` and you want to keep it, do this instead
 git clone https://github.com/CondensedMilk7/countryfetch-go.git && cd ./countryfetch-go && go build -o countryfetch-go && cp ./countryfetch-go ~/.local/bin/
 
 ```
+First make sure you run `countryfetch -sync`, optionally with `-flag` to store data in cache.
 
 ```
 USAGE:
@@ -31,19 +32,26 @@ USAGE:
     	Print flag only. Must be used with -name.
   -flagremote
     	Print flag via remote URL. Can be used in combination with -flagonly. Must be used with -name.
+  -height int
+    	Specify flag height. Can be used with -flagremote and -sync -flags (default 12)
+  -help
+    	Get usage help
   -name string
     	Find country by given name.
   -sync
     	Fetch and save data to cache.
+  -width int
+    	Specify flag width. Can be used with -flagremote and -sync -flags (default 40)
 EXAMPLE:
   countryfetch -name italy -flag
-	    Fetch information about Italy, including its flag.
+        Fetch information about Italy, including its flag.
   countryfetch -sync -flag
-	    Store information of all countries in cache, including generated flag ASCII art.
+        Store information of all countries in cache, including generated flag ASCII art.
   countryfetch -capital "kuala lumpur"
-	    Fetch information about the country of given capital.
+        Fetch information about the country of given capital.
   countryfetch -flagonly -name "united states"
-      Fetch just the flag of USA.
+        Fetch just the flag of USA.
+
 ```
 
 Note that string arguments with multiple words have to be enclosed in brackets.
@@ -83,4 +91,5 @@ countryfetch -sync -flag  7.92s user 0.30s system 35% cpu 23.377 total
 
 - ~~Fetch flags remotely (directly, not from stored cache)~~
 - ~~Fetch just the flag for a given country~~
-- CLI-configurable flag ASCII dimensions (probably just for the remote)
+- ~~CLI-configurable flag ASCII dimensions~~
+- Support for Windows

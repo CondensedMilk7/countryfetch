@@ -15,11 +15,17 @@ import (
 
 type CacheDir func() (string, error)
 
+type FlagDimensions struct {
+	Width  int
+	Height int
+}
+
 type Config struct {
-	Url       string
-	Query     string
-	CacheFile string
-	CacheDir  CacheDir
+	Url        string
+	Query      string
+	CacheFile  string
+	CacheDir   CacheDir
+	Dimensions FlagDimensions
 }
 
 type CurrencyInfo struct {
@@ -85,11 +91,10 @@ Currencies: %s
 	)
 }
 
-func (c Country) PrintFlagRemote() error {
+func (c Country) PrintFlagRemote(width int, height int) error {
 	convertOptions := convert.DefaultOptions
-	convertOptions.FixedWidth = 40
-	convertOptions.FixedHeight = 12
-	convertOptions.FitScreen = true
+	convertOptions.FixedWidth = width
+	convertOptions.FixedHeight = height
 	converter := convert.NewImageConverter()
 
 	ascii, err := c.FlagAscii(converter, &convertOptions)

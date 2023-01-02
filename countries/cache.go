@@ -28,14 +28,13 @@ func ReadFlag(fileName string, cacheDir string) (string, error) {
 	return "", errors.New("Failed executing a loop over cache file entries")
 }
 
-func CacheFlags(countries []Country, cacheDir string, cb func(current int, total int, countryName string)) error {
+func CacheFlags(countries []Country, cacheDir string, dimensions FlagDimensions, cb func(current int, total int, countryName string)) error {
 	flagsPath := path.Join(cacheDir, "flags")
 	os.MkdirAll(flagsPath, os.ModePerm)
 
 	convertOptions := convert.DefaultOptions
-	convertOptions.FixedWidth = 40
-	convertOptions.FixedHeight = 12
-	convertOptions.FitScreen = true
+	convertOptions.FixedWidth = dimensions.Width
+	convertOptions.FixedHeight = dimensions.Height
 	converter := convert.NewImageConverter()
 
 	for i, country := range countries {

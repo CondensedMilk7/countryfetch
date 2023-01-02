@@ -21,6 +21,10 @@ var config = countries.Config{
 		}
 		return path.Join(homeDir, ".cache", "countryfetch"), nil
 	},
+	Dimensions: countries.FlagDimensions{
+		Width:  40,
+		Height: 12,
+	},
 }
 
 var sync bool
@@ -29,14 +33,20 @@ var capital string
 var withFlag bool
 var flagOnly bool
 var flagRemote bool
+var flagWidth int
+var flagHeight int
+var help bool
 
 func main() {
+	flag.BoolVar(&help, "help", false, "Get usage help.")
 	flag.BoolVar(&sync, "sync", false, "Fetch and save data to cache.")
 	flag.StringVar(&countryName, "name", "", "Find country by given name.")
 	flag.StringVar(&capital, "capital", "", "Find country by given capital.")
 	flag.BoolVar(&withFlag, "flag", false, "Include ASCII flag in the operation. Can be used in combination with -sync & -name.")
 	flag.BoolVar(&flagOnly, "flagonly", false, "Print flag only. Must be used with -name.")
 	flag.BoolVar(&flagRemote, "flagremote", false, "Print flag via remote URL. Can be used in combination with -flagonly. Must be used with -name.")
+	flag.IntVar(&flagWidth, "width", config.Dimensions.Width, "Specify flag width. Can be used with -flagremote and -sync -flags")
+	flag.IntVar(&flagHeight, "height", config.Dimensions.Height, "Specify flag height. Can be used with -flagremote and -sync -flags")
 	flag.Parse()
 
 	cacheDir, err := config.CacheDir()
@@ -55,9 +65,20 @@ func main() {
 			fmt.Println("Generating ASCII art for each country flag. This may take a minute...")
 			data, err := countries.ReadData(cacheDir, config.CacheFile)
 			checkErr(err)
-			err = countries.CacheFlags(data, cacheDir, func(current int, total int, cName string) {
-				fmt.Println(fmt.Sprintf("(%d/%d) %s", current, total, cName))
-			})
+
+			flagDimensions := countries.FlagDimensions{
+				Width:  flagWidth,
+				Height: flagHeight,
+			}
+
+			err = countries.CacheFlags(
+				data,
+				cacheDir,
+				flagDimensions,
+				func(current int, total int, cName string) {
+					fmt.Println(fmt.Sprintf("(%d/%d) %s", current, total, cName))
+				})
+
 			checkErr(err)
 			fmt.Println(color.WrapInColor(color.Green, "Done."))
 		}
@@ -73,13 +94,13 @@ func main() {
 			checkErr(err)
 			c.Print()
 		} else if flagOnly && flagRemote {
-			err := c.PrintFlagRemote()
+			err := c.PrintFlagRemote(flagWidth, flagHeight)
 			checkErr(err)
 		} else if flagOnly {
 			err := c.PrintFlag(cacheDir)
 			checkErr(err)
 		} else if flagRemote {
-			err := c.PrintFlagRemote()
+			err := c.PrintFlagRemote(flagWidth, flagHeight)
 			checkErr(err)
 			c.Print()
 		} else {
@@ -96,18 +117,18 @@ func main() {
 		c.Print()
 	}
 
-	if len(os.Args) == 1 {
+	if len(os.Args) == 1 || help {
 		fmt.Println("USAGE:")
 		flag.PrintDefaults()
 		fmt.Println("EXAMPLE:")
 		fmt.Println(`  countryfetch -name italy -flag
-      Fetch information about Italy, including its flag.
+        Fetch information about Italy, including its flag.
   countryfetch -sync -flag
-      Store information of all countries in cache, including generated flag ASCII art.
+        Store information of all countries in cache, including generated flag ASCII art.
   countryfetch -capital "kuala lumpur"
-      Fetch information about the country of given capital.
+        Fetch information about the country of given capital.
   countryfetch -flagonly -name "united states"
-      Fetch just the flag of USA.`)
+        Fetch just the flag of USA.`)
 	}
 }
 
