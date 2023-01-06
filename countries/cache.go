@@ -45,7 +45,7 @@ func CacheFlags(countries []Country, cacheDir string, dimensions FlagDimensions,
 			return err
 		}
 		fileName := FormatFlagFileName(country.Name.Common)
-		os.WriteFile(path.Join(flagsPath, fileName), []byte(asciiFlag), os.ModePerm)
+		os.WriteFile(path.Join(flagsPath, fileName), []byte(asciiFlag), 0644)
 	}
 
 	return nil
@@ -75,7 +75,7 @@ func SaveData(data []Country, cacheDir string, fileName string) error {
 		return err
 	}
 	path := path.Join(cacheDir, fileName)
-	os.WriteFile(path, result, os.ModePerm)
+	os.WriteFile(path, result, 0644)
 	return nil
 }
 
