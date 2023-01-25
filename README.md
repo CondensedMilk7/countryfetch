@@ -1,7 +1,7 @@
 # Countryfetch
 
 A cli tool for fetching information about countries. A Go alternative to my original
-[countryfetch](https://github.com/CondensedMilk7/countryfetch) which is written in TypeScript (Deno).
+[countryfetch](https://github.com/CondensedMilk7/countryfetch-deno) which is written in TypeScript (Deno).
 It uses https://restcountries.com/ for back-end.
 
 ![](./media/countryfetch-go.jpg)
@@ -11,13 +11,7 @@ It uses https://restcountries.com/ for back-end.
 Make sure you have [GO](https://go.dev/) installed and run this one-line installer:
 
 ```bash
-go install github.com/CondensedMilk7/countryfetch-go/cmd/countryfetch@latest
-```
-
-If you have the original `countryfetch` and you want to keep it, do this instead:
-
-```bash
-git clone https://github.com/CondensedMilk7/countryfetch-go.git && cd ./countryfetch-go && go build ./cmd/countryfetch/ -o countryfetch-go && cp ./countryfetch-go ~/.local/bin/
+go install github.com/CondensedMilk7/countryfetch/cmd/countryfetch@latest
 ```
 
 First make sure you run `countryfetch -sync`, optionally with `-flag` to store data in cache.
