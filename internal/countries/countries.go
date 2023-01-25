@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/CondensedMilk7/countryfetch-go/internal/color"
+	"github.com/CondensedMilk7/countryfetch/internal/color"
 	"github.com/qeesung/image2ascii/convert"
 )
 

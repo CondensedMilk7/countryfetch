@@ -1,4 +1,4 @@
-module github.com/CondensedMilk7/countryfetch-go
+module github.com/CondensedMilk7/countryfetch
 
 go 1.19
 

@@ -6,8 +6,8 @@ import (
 	"os"
 	"path"
 
-	"github.com/CondensedMilk7/countryfetch-go/internal/color"
-	"github.com/CondensedMilk7/countryfetch-go/internal/countries"
+	"github.com/CondensedMilk7/countryfetch/internal/color"
+	"github.com/CondensedMilk7/countryfetch/internal/countries"
 )
 
 var config = countries.Config{
