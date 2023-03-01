@@ -8,6 +8,7 @@ import (
 
 	"github.com/CondensedMilk7/countryfetch/internal/color"
 	"github.com/CondensedMilk7/countryfetch/internal/countries"
+	"github.com/mattn/go-colorable"
 )
 
 var config = countries.Config{
@@ -51,6 +52,9 @@ func main() {
 
 	cacheDir, err := config.CacheDir()
 	checkErr(err)
+
+	// Windows support Colors
+	defer colorable.EnableColorsStdout(nil)()
 
 	if sync {
 		fmt.Println("Fetching countries data...")
