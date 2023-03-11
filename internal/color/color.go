@@ -1,6 +1,5 @@
 package color
 
-import "runtime"
 
 var Reset = "\033[0m"
 var Red = "\033[31m"
@@ -12,19 +11,6 @@ var Cyan = "\033[36m"
 var Gray = "\033[37m"
 var White = "\033[97m"
 
-func init() {
-	if runtime.GOOS == "windows" {
-		Reset = ""
-		Red = ""
-		Green = ""
-		Yellow = ""
-		Blue = ""
-		Purple = ""
-		Cyan = ""
-		Gray = ""
-		White = ""
-	}
-}
 
 func WrapInColor(color string, str string) string {
 	return color + str + Reset
