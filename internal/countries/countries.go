@@ -64,7 +64,7 @@ func (c Country) Print() {
 	output :=
 		`Name: %s %s
 Lat/Lng: %s
-Populaiton: %s
+Population: %s
 Languages: %s
 Capital: %s
 Capital Lat/Lng: %s
