@@ -32,6 +32,8 @@ USAGE:
     	Get usage help
   -name string
     	Find country by given name.
+  -random
+      Print a random country.
   -sync
     	Fetch and save data to cache.
   -width int
@@ -57,7 +59,7 @@ Here's a (little irrelevant) performance comparison between TypeScript and Go ve
 
 ### Regular fetch
 
-**TypeScript(Deno)**
+**TypeScript (Deno)**
 ```
 countryfetch south korea  0.20s user 0.02s system 100% cpu 0.215 total
 ```
@@ -70,7 +72,7 @@ countryfetch -flag -name "south korea"  0.01s user 0.00s system 105% cpu 0.014 t
 ### Generating ASCII and caching
 
 
-**TypeScript(Deno)**
+**TypeScript (Deno)**
 ```
 countryfetch sync flags  13.16s user 0.32s system 19% cpu 1:08.47 total
 ```

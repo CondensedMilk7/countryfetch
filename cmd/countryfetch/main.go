@@ -37,6 +37,7 @@ var flagRemote bool
 var flagWidth int
 var flagHeight int
 var help bool
+var random bool
 
 func main() {
 	flag.BoolVar(&help, "help", false, "Get usage help.")
@@ -48,6 +49,7 @@ func main() {
 	flag.BoolVar(&flagRemote, "flagremote", false, "Print flag via remote URL. Can be used in combination with -flagonly. Must be used with -name.")
 	flag.IntVar(&flagWidth, "width", config.Dimensions.Width, "Specify flag width. Can be used with -flagremote and -sync -flags")
 	flag.IntVar(&flagHeight, "height", config.Dimensions.Height, "Specify flag height. Can be used with -flagremote and -sync -flags")
+	flag.BoolVar(&random, "random", false, "Print a random country.")
 	flag.Parse()
 
 	cacheDir, err := config.CacheDir()
@@ -88,8 +90,14 @@ func main() {
 		}
 	}
 
+	data, err := countries.ReadData(cacheDir, config.CacheFile)
+	checkErr(err)
+
+	if random {
+		countryName = countries.Random(data).Name.Common
+	}
+
 	if countryName != "" {
-		data, err := countries.ReadData(cacheDir, config.CacheFile)
 		checkErr(err)
 		c, err := countries.FindByName(data, countryName)
 		checkErr(err)

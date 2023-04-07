@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"image/png"
 	"io"
+	"math/rand"
 	"net/http"
 	"strings"
 
@@ -134,6 +135,12 @@ func (c Country) PrintFlag(cacheDir string) error {
 	}
 	fmt.Println(flag)
 	return nil
+}
+
+func Random(countries []Country) Country {
+	randNum := rand.Intn(len(countries))
+	return countries[randNum]
+
 }
 
 func FindByName(countries []Country, exp string) (Country, error) {
