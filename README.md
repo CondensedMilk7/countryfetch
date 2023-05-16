@@ -8,8 +8,9 @@ It uses https://restcountries.com/ for back-end.
 
 # Important
 
-Please support restcountries.com if you can, as it is going to shut down by the end of May 2023 due
-to the lack of funding, which means this CLI tool will become obsolete.
+Please [support restcountries.com](https://restcountries.com/#donations) if you can,
+as it is going to shut down by the end of May 2023 due to the lack of funding,
+which means this CLI tool will become obsolete.
 
 # Installation & Usage
 
