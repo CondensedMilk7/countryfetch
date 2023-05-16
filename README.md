@@ -6,6 +6,11 @@ It uses https://restcountries.com/ for back-end.
 
 ![](./media/countryfetch-go.jpg)
 
+# Important
+
+Please support restcountries.com if you can, as it is going to shut down by the end of May 2023 due
+to the lack of funding, which means this CLI tool will become obsolete.
+
 # Installation & Usage
 
 Make sure you have [GO](https://go.dev/) installed and run this one-line installer:
